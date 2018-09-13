@@ -19,7 +19,9 @@ export class LoggingRepository implements ILoggingRepository {
 
   public async readLogForProcessModel(correlationId: string, processModelId: string): Promise<Array<LogEntry>> {
 
-    const logFilePath: string = this._buildPath(correlationId, processModelId);
+    const fileNameWithExtension: string = `${processModelId}.log`;
+
+    const logFilePath: string = this._buildPath(correlationId, fileNameWithExtension);
 
     const logFileExists: boolean = FileSystemAdapter.targetExists(logFilePath);
     if (!logFileExists) {
@@ -55,7 +57,9 @@ export class LoggingRepository implements ILoggingRepository {
 
   private async _writeLogEntryToFileSystem(correlationId: string, processModelId: string, entry: string): Promise<void> {
 
-    const targetFilePath: string = this._buildPath(correlationId, processModelId);
+    const fileNameWithExtension: string = `${processModelId}.log`;
+
+    const targetFilePath: string = this._buildPath(correlationId, fileNameWithExtension);
 
     await FileSystemAdapter.ensureDirectoryExists(targetFilePath);
     await FileSystemAdapter.writeToLogFile(targetFilePath, entry);
