@@ -115,9 +115,9 @@ export function readAndParseFile(filePath: string): Array<LogEntry> {
 // tslint:disable:no-magic-numbers
 function _createLogEntryFromRawData(logEntryRaw: string): LogEntry {
 
-  const logEntryRawParts: Array<string> = logEntryRaw.split('\t');
+  const logEntryRawParts: Array<string> = logEntryRaw.split(';');
 
-  const isFlowNodeInstanceLog: boolean = logEntryRawParts.length === 7;
+  const isFlowNodeInstanceLog: boolean = logEntryRawParts[0] === 'FlowNodeInstance';
 
   const logEntry: LogEntry = isFlowNodeInstanceLog
     ? _parseFlowNodeInstanceLog(logEntryRawParts)
@@ -135,13 +135,13 @@ function _createLogEntryFromRawData(logEntryRaw: string): LogEntry {
 function _parseFlowNodeInstanceLog(rawData: Array<string>): LogEntry {
 
   const logEntry: LogEntry = new LogEntry();
-  logEntry.timeStamp = new Date(rawData[0]);
-  logEntry.correlationId = rawData[1];
-  logEntry.processModelId = rawData[2];
-  logEntry.flowNodeInstanceId = rawData[3];
-  logEntry.flowNodeId = rawData[4];
-  logEntry.logLevel = LogLevel[rawData[5]];
-  logEntry.message = rawData[6];
+  logEntry.timeStamp = new Date(rawData[1]);
+  logEntry.correlationId = rawData[2];
+  logEntry.processModelId = rawData[3];
+  logEntry.flowNodeInstanceId = rawData[4];
+  logEntry.flowNodeId = rawData[5];
+  logEntry.logLevel = LogLevel[rawData[6]];
+  logEntry.message = rawData[7];
 
   return logEntry;
 }
@@ -155,11 +155,11 @@ function _parseFlowNodeInstanceLog(rawData: Array<string>): LogEntry {
 function _parseProcessModelLog(rawData: Array<string>): LogEntry {
 
   const logEntry: LogEntry = new LogEntry();
-  logEntry.timeStamp = new Date(rawData[0]);
-  logEntry.correlationId = rawData[1];
-  logEntry.processModelId = rawData[2];
-  logEntry.logLevel = LogLevel[rawData[3]];
-  logEntry.message = rawData[4];
+  logEntry.timeStamp = new Date(rawData[1]);
+  logEntry.correlationId = rawData[2];
+  logEntry.processModelId = rawData[3];
+  logEntry.logLevel = LogLevel[rawData[6]];
+  logEntry.message = rawData[7];
 
   return logEntry;
 }

@@ -1,5 +1,6 @@
 import {ILoggingRepository, LogEntry, LogLevel} from '@process-engine/logging_api_contracts';
 
+import * as moment from 'moment';
 import * as path from 'path';
 
 import * as FileSystemAdapter from './adapter';
@@ -39,7 +40,10 @@ export class LoggingRepository implements ILoggingRepository {
                                        message: string,
                                        timestamp: Date): Promise<void> {
 
-    const logEntryAsString: string = [timestamp, correlationId, processModelId, logLevel, message].join('\t');
+    const timeStampAsIsoString: string = moment(timestamp).toISOString();
+
+    const logEntryAsString: string =
+      ['ProcessModel', timeStampAsIsoString, correlationId, processModelId, '', '', logLevel, message].join(';');
     await this._writeLogEntryToFileSystem(correlationId, processModelId, logEntryAsString);
   }
 
@@ -51,7 +55,10 @@ export class LoggingRepository implements ILoggingRepository {
                                    message: string,
                                    timestamp: Date): Promise<void> {
 
-    const logEntryAsString: string = [timestamp, correlationId, processModelId, flowNodeInstanceId, flowNodeId, logLevel, message].join('\t');
+    const timeStampAsIsoString: string = moment(timestamp).toISOString();
+
+    const logEntryAsString: string =
+      ['FlowNodeInstance', timeStampAsIsoString, correlationId, processModelId, flowNodeInstanceId, flowNodeId, logLevel, message].join(';');
     await this._writeLogEntryToFileSystem(correlationId, processModelId, logEntryAsString);
   }
 
