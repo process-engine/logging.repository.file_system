@@ -2,6 +2,7 @@ import {LogEntry, LogLevel} from '@process-engine/logging_api_contracts';
 
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
+import * as moment from 'moment';
 import * as path from 'path';
 
 export function targetExists(targetPath: string): boolean {
@@ -135,7 +136,7 @@ function _createLogEntryFromRawData(logEntryRaw: string): LogEntry {
 function _parseFlowNodeInstanceLog(rawData: Array<string>): LogEntry {
 
   const logEntry: LogEntry = new LogEntry();
-  logEntry.timeStamp = new Date(rawData[1]);
+  logEntry.timeStamp = moment(rawData[1]).toDate();
   logEntry.correlationId = rawData[2];
   logEntry.processModelId = rawData[3];
   logEntry.flowNodeInstanceId = rawData[4];
@@ -155,7 +156,7 @@ function _parseFlowNodeInstanceLog(rawData: Array<string>): LogEntry {
 function _parseProcessModelLog(rawData: Array<string>): LogEntry {
 
   const logEntry: LogEntry = new LogEntry();
-  logEntry.timeStamp = new Date(rawData[1]);
+  logEntry.timeStamp = moment(rawData[1]).toDate();
   logEntry.correlationId = rawData[2];
   logEntry.processModelId = rawData[3];
   logEntry.logLevel = LogLevel[rawData[6]];
