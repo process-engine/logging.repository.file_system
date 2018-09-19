@@ -66,7 +66,7 @@ export class LoggingRepository implements ILoggingRepository {
   }
 
   private _buildPath(...pathSegments: Array<string>): string {
-    return path.resolve(process.cwd(), this.config.log_output_path, ...pathSegments);
+    return path.resolve(process.cwd(), this.config.output_path, ...pathSegments);
   }
 
 }
