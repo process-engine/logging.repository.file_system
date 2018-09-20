@@ -33,9 +33,9 @@ export class LoggingRepository implements ILoggingRepository {
 
     const timeStampAsIsoString: string = moment(timestamp).toISOString();
 
-    const logEntryAsString: string =
-      ['ProcessModel', timeStampAsIsoString, correlationId, processModelId, '', '', logLevel, message].join(';');
-    await this._writeLogEntryToFileSystem(correlationId, processModelId, logEntryAsString);
+    const logEntryValues: Array<string> =
+      ['ProcessModel', timeStampAsIsoString, correlationId, processModelId, '', '', logLevel, message];
+    await this._writeLogEntryToFileSystem(correlationId, processModelId, ...logEntryValues);
   }
 
   public async writeLogForFlowNode(correlationId: string,
@@ -48,23 +48,29 @@ export class LoggingRepository implements ILoggingRepository {
 
     const timeStampAsIsoString: string = moment(timestamp).toISOString();
 
-    const logEntryAsString: string =
-      ['FlowNodeInstance', timeStampAsIsoString, correlationId, processModelId, flowNodeInstanceId, flowNodeId, logLevel, message].join(';');
-    await this._writeLogEntryToFileSystem(correlationId, processModelId, logEntryAsString);
+    const logEntryValues: Array<string> =
+      ['FlowNodeInstance', timeStampAsIsoString, correlationId, processModelId, flowNodeInstanceId, flowNodeId, logLevel, message];
+    await this._writeLogEntryToFileSystem(correlationId, processModelId, ...logEntryValues);
   }
 
-  private async _writeLogEntryToFileSystem(correlationId: string, processModelId: string, entry: string): Promise<void> {
+  private async _writeLogEntryToFileSystem(processModelId: string, ...values: Array<string>): Promise<void> {
 
     const fileNameWithExtension: string = `${processModelId}.log`;
 
     const targetFilePath: string = this._buildPath(fileNameWithExtension);
 
+    const loggingEntryAsString: string = this._buildLoggingString(...values);
+
     await FileSystemAdapter.ensureDirectoryExists(targetFilePath);
-    await FileSystemAdapter.writeToLogFile(targetFilePath, entry);
+    await FileSystemAdapter.writeToLogFile(targetFilePath, loggingEntryAsString);
   }
 
   private _buildPath(...pathSegments: Array<string>): string {
     return path.resolve(process.cwd(), this.config.output_path, ...pathSegments);
+  }
+
+  private _buildLoggingString(...args: Array<string>): string {
+    return args.join(';');
   }
 
 }
