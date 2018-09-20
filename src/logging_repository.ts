@@ -9,16 +9,7 @@ export class LoggingRepository implements ILoggingRepository {
 
   public config: any;
 
-  public async readLogForCorrelation(correlationId: string): Promise<Array<LogEntry>> {
-
-    const folderPath: string = this._buildPath(correlationId);
-
-    const correlationLogs: Array<LogEntry> = FileSystemAdapter.readAndParseDirectory(folderPath);
-
-    return correlationLogs;
-  }
-
-  public async readLogForProcessModel(correlationId: string, processModelId: string): Promise<Array<LogEntry>> {
+  public async readLogForProcessModel(processModelId: string): Promise<Array<LogEntry>> {
 
     const fileNameWithExtension: string = `${processModelId}.log`;
 
