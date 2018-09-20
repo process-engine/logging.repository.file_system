@@ -22,7 +22,7 @@ export class LoggingRepository implements ILoggingRepository {
 
     const fileNameWithExtension: string = `${processModelId}.log`;
 
-    const logFilePath: string = this._buildPath(correlationId, fileNameWithExtension);
+    const logFilePath: string = this._buildPath(fileNameWithExtension);
 
     const logFileExists: boolean = FileSystemAdapter.targetExists(logFilePath);
     if (!logFileExists) {
@@ -66,7 +66,7 @@ export class LoggingRepository implements ILoggingRepository {
 
     const fileNameWithExtension: string = `${processModelId}.log`;
 
-    const targetFilePath: string = this._buildPath(correlationId, fileNameWithExtension);
+    const targetFilePath: string = this._buildPath(fileNameWithExtension);
 
     await FileSystemAdapter.ensureDirectoryExists(targetFilePath);
     await FileSystemAdapter.writeToLogFile(targetFilePath, entry);
