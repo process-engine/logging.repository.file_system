@@ -13,7 +13,7 @@
     "Christian Werner <christian.werner@5minds.de>"
   ],
   "dependencies": {
-    "@process-engine/logging_api_contracts": "0.1.5"
+    "@process-engine/logging_api_contracts": "feature~add_process_instance_id"
   },
   "devDependencies": {
     "@essential-projects/tslint-config": "1.1.1",
