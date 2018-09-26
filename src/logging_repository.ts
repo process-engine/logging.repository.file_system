@@ -27,6 +27,7 @@ export class LoggingRepository implements ILoggingRepository {
 
   public async writeLogForProcessModel(correlationId: string,
                                        processModelId: string,
+                                       processInstanceId: string,
                                        logLevel: LogLevel,
                                        message: string,
                                        timestamp: Date): Promise<void> {
@@ -34,12 +35,13 @@ export class LoggingRepository implements ILoggingRepository {
     const timeStampAsIsoString: string = moment(timestamp).toISOString();
 
     const logEntryValues: Array<string> =
-      ['ProcessModel', timeStampAsIsoString, correlationId, processModelId, '', '', logLevel, message];
-    await this._writeLogEntryToFileSystem(correlationId, processModelId, ...logEntryValues);
+      ['ProcessModel', timeStampAsIsoString, correlationId, processModelId, processInstanceId, '', '', logLevel, message];
+    await this._writeLogEntryToFileSystem(processModelId, ...logEntryValues);
   }
 
   public async writeLogForFlowNode(correlationId: string,
                                    processModelId: string,
+                                   processInstanceId: string,
                                    flowNodeInstanceId: string,
                                    flowNodeId: string,
                                    logLevel: LogLevel,
@@ -49,8 +51,8 @@ export class LoggingRepository implements ILoggingRepository {
     const timeStampAsIsoString: string = moment(timestamp).toISOString();
 
     const logEntryValues: Array<string> =
-      ['FlowNodeInstance', timeStampAsIsoString, correlationId, processModelId, flowNodeInstanceId, flowNodeId, logLevel, message];
-    await this._writeLogEntryToFileSystem(correlationId, processModelId, ...logEntryValues);
+      ['FlowNodeInstance', timeStampAsIsoString, correlationId, processModelId, processInstanceId, flowNodeInstanceId, flowNodeId, logLevel, message];
+    await this._writeLogEntryToFileSystem(processModelId, ...logEntryValues);
   }
 
   private async _writeLogEntryToFileSystem(processModelId: string, ...values: Array<string>): Promise<void> {

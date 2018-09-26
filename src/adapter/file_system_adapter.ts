@@ -139,10 +139,11 @@ function _parseFlowNodeInstanceLog(rawData: Array<string>): LogEntry {
   logEntry.timeStamp = moment(rawData[1]).toDate();
   logEntry.correlationId = rawData[2];
   logEntry.processModelId = rawData[3];
-  logEntry.flowNodeInstanceId = rawData[4];
-  logEntry.flowNodeId = rawData[5];
-  logEntry.logLevel = LogLevel[rawData[6]];
-  logEntry.message = rawData[7];
+  logEntry.processInstanceId = rawData[4];
+  logEntry.flowNodeInstanceId = rawData[5];
+  logEntry.flowNodeId = rawData[6];
+  logEntry.logLevel = LogLevel[rawData[7]];
+  logEntry.message = rawData[8];
 
   return logEntry;
 }
@@ -159,8 +160,9 @@ function _parseProcessModelLog(rawData: Array<string>): LogEntry {
   logEntry.timeStamp = moment(rawData[1]).toDate();
   logEntry.correlationId = rawData[2];
   logEntry.processModelId = rawData[3];
-  logEntry.logLevel = LogLevel[rawData[6]];
-  logEntry.message = rawData[7];
+  logEntry.processInstanceId = rawData[4];
+  logEntry.logLevel = LogLevel[rawData[7]];
+  logEntry.message = rawData[8];
 
   return logEntry;
 }
