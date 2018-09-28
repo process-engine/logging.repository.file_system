@@ -3,7 +3,7 @@
   "publishConfig": {
     "registry": "https://www.npmjs.com"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "This repository uses the local file system to access and manipulate log files.",
   "license": "MIT",
   "main": "dist/commonjs/index.js",
@@ -13,10 +13,10 @@
     "Christian Werner <christian.werner@5minds.de>"
   ],
   "dependencies": {
-    "@process-engine/logging_api_contracts": "0.2.0"
+    "@process-engine/logging_api_contracts": "0.2.1"
   },
   "devDependencies": {
-    "@essential-projects/tslint-config": "1.1.1",
+    "@essential-projects/tslint-config": "1.1.2",
     "@types/node": "8.10.10",
     "@types/sequelize": "4.27.23",
     "gulp": "3.9.1",
@@ -24,7 +24,7 @@
     "gulptraum-typescript": "1.5.0",
     "moment": "2.22.2",
     "tsconfig": "7.0.0",
-    "tslint": "5.10.0",
+    "tslint": "5.11.0",
     "typescript": "2.8.3"
   },
   "scripts": {
