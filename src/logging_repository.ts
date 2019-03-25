@@ -38,8 +38,8 @@ export class LoggingRepository implements ILoggingRepository {
 
     const processModelLogs: Array<LogEntry> = FileSystemAdapter.readAndParseFile(logFilePath);
 
-    const processInstanceLogs: Array<LogEntry> = processModelLogs.filter((logentry: LogEntry) => {
-      return logentry.processInstanceId === processInstanceId;
+    const processInstanceLogs: Array<LogEntry> = processModelLogs.filter((logEntry: LogEntry) => {
+      return logEntry.processInstanceId === processInstanceId;
     });
 
     return processInstanceLogs;
