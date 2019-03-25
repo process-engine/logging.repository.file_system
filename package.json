@@ -13,7 +13,7 @@
     "Christian Werner <christian.werner@5minds.de>"
   ],
   "dependencies": {
-    "@process-engine/logging_api_contracts": "^1.0.0",
+    "@process-engine/logging_api_contracts": "feature~add_function_to_get_logs_by_process-instance-id",
     "moment": "~2.24.0"
   },
   "devDependencies": {
