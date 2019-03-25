@@ -25,6 +25,26 @@ export class LoggingRepository implements ILoggingRepository {
     return correlationLogs;
   }
 
+  public async readLogForProcessInstance(processModelId: string, processInstanceId: string): Promise<Array<LogEntry>> {
+
+    const fileNameWithExtension: string = `${processModelId}.log`;
+
+    const logFilePath: string = this._buildPath(fileNameWithExtension);
+
+    const logFileExists: boolean = FileSystemAdapter.targetExists(logFilePath);
+    if (!logFileExists) {
+      return [];
+    }
+
+    const correlationLogs: Array<LogEntry> = FileSystemAdapter.readAndParseFile(logFilePath);
+
+    const processInstanceLogs: Array<LogEntry> = correlationLogs.filter((logentry: LogEntry) => {
+      return logentry.processInstanceId === processInstanceId;
+    });
+
+    return processInstanceLogs;
+  }
+
   public async writeLogForProcessModel(correlationId: string,
                                        processModelId: string,
                                        processInstanceId: string,
