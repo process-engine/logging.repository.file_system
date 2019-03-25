@@ -36,9 +36,9 @@ export class LoggingRepository implements ILoggingRepository {
       return [];
     }
 
-    const correlationLogs: Array<LogEntry> = FileSystemAdapter.readAndParseFile(logFilePath);
+    const processModelLogs: Array<LogEntry> = FileSystemAdapter.readAndParseFile(logFilePath);
 
-    const processInstanceLogs: Array<LogEntry> = correlationLogs.filter((logentry: LogEntry) => {
+    const processInstanceLogs: Array<LogEntry> = processModelLogs.filter((logentry: LogEntry) => {
       return logentry.processInstanceId === processInstanceId;
     });
 
