@@ -17,17 +17,18 @@ export function targetExists(targetPath: string): boolean {
  */
 export async function ensureDirectoryExists(targetFilePath: string): Promise<void> {
 
+  // eslint-disable-next-line consistent-return
   return new Promise<void>((resolve: Function, reject: Function): void => {
 
-    const parsedPath: path.ParsedPath = path.parse(targetFilePath);
+    const parsedPath = path.parse(targetFilePath);
 
-    const targetDirectoryExists: boolean = fs.existsSync(parsedPath.dir);
+    const targetDirectoryExists = fs.existsSync(parsedPath.dir);
 
     if (targetDirectoryExists) {
       return resolve();
     }
 
-    mkdirp(parsedPath.dir, (error: Error, data: string) => {
+    mkdirp(parsedPath.dir, (error: Error, data: string): void => {
 
       if (error) {
         return reject(error);
@@ -48,10 +49,10 @@ export async function ensureDirectoryExists(targetFilePath: string): Promise<voi
 export async function writeToLogFile(targetFilePath: string, entry: string): Promise<void> {
 
   return new Promise<void>((resolve: Function, reject: Function): void => {
-    const fileStream: fs.WriteStream = fs.createWriteStream(targetFilePath, {flags: 'a'});
+    const fileStream = fs.createWriteStream(targetFilePath, {flags: 'a'});
 
-     // Note: using "end" instead of "write" will result in the stream being closed immediately afterwards, thus releasing the file.
-    fileStream.end(`${entry}\n`, 'utf-8', () => {
+    // Note: using "end" instead of "write" will result in the stream being closed immediately afterwards, thus releasing the file.
+    fileStream.end(`${entry}\n`, 'utf-8', (): void => {
       return resolve();
     });
   });
@@ -66,13 +67,13 @@ export async function writeToLogFile(targetFilePath: string, entry: string): Pro
  */
 export function readAndParseDirectory(dirPath: string): Array<LogEntry> {
 
-  const logfileNames: Array<string> = fs.readdirSync(dirPath);
+  const logfileNames = fs.readdirSync(dirPath);
 
   const correlationLogs: Array<LogEntry> = [];
 
   for (const fileName of logfileNames) {
-    const fullFilePath: string = path.join(dirPath, fileName);
-    const logFileEntries: Array<LogEntry> = readAndParseFile(fullFilePath);
+    const fullFilePath = path.join(dirPath, fileName);
+    const logFileEntries = readAndParseFile(fullFilePath);
     Array.prototype.push.apply(correlationLogs, logFileEntries);
   }
 
@@ -88,16 +89,16 @@ export function readAndParseDirectory(dirPath: string): Array<LogEntry> {
  */
 export function readAndParseFile(filePath: string): Array<LogEntry> {
 
-  const logFileContent: string = fs.readFileSync(filePath, 'utf-8');
+  const logFileContent = fs.readFileSync(filePath, 'utf-8');
 
-  const logEntriesRaw: Array<string> = logFileContent.split('\n');
+  const logEntriesRaw = logFileContent.split('\n');
 
   // Filter out empty lines and the final new line.
-  const logEntriesFiltered: Array<string> = logEntriesRaw.filter((entry: string) => {
+  const logEntriesFiltered = logEntriesRaw.filter((entry: string): boolean => {
     return entry.length > 0;
   });
 
-  const logEntries: Array<LogEntry> = logEntriesFiltered.map(_createLogEntryFromRawData);
+  const logEntries = logEntriesFiltered.map(createLogEntryFromRawData);
 
   return logEntries;
 }
@@ -110,15 +111,15 @@ export function readAndParseFile(filePath: string): Array<LogEntry> {
  * @returns             The parsed LogEntry.
  */
 // tslint:disable:no-magic-numbers
-function _createLogEntryFromRawData(logEntryRaw: string): LogEntry {
+function createLogEntryFromRawData(logEntryRaw: string): LogEntry {
 
-  const logEntryRawParts: Array<string> = logEntryRaw.split(';');
+  const logEntryRawParts = logEntryRaw.split(';');
 
-  const isFlowNodeInstanceLog: boolean = logEntryRawParts[0] === 'FlowNodeInstance';
+  const isFlowNodeInstanceLog = logEntryRawParts[0] === 'FlowNodeInstance';
 
-  const logEntry: LogEntry = isFlowNodeInstanceLog
-    ? _parseFlowNodeInstanceLog(logEntryRawParts)
-    : _parseProcessModelLog(logEntryRawParts);
+  const logEntry = isFlowNodeInstanceLog
+    ? parseFlowNodeInstanceLog(logEntryRawParts)
+    : parseProcessModelLog(logEntryRawParts);
 
   return logEntry;
 }
@@ -129,9 +130,9 @@ function _createLogEntryFromRawData(logEntryRaw: string): LogEntry {
  * @param   rawData The data to parse into a LogEntry.
  * @returns         The parsed LogEntry.
  */
-function _parseFlowNodeInstanceLog(rawData: Array<string>): LogEntry {
+function parseFlowNodeInstanceLog(rawData: Array<string>): LogEntry {
 
-  const logEntry: LogEntry = new LogEntry();
+  const logEntry = new LogEntry();
   logEntry.timeStamp = moment(rawData[1]).toDate();
   logEntry.correlationId = rawData[2];
   logEntry.processModelId = rawData[3];
@@ -150,9 +151,9 @@ function _parseFlowNodeInstanceLog(rawData: Array<string>): LogEntry {
  * @param   rawData The data to parse into a LogEntry.
  * @returns         The parsed LogEntry.
  */
-function _parseProcessModelLog(rawData: Array<string>): LogEntry {
+function parseProcessModelLog(rawData: Array<string>): LogEntry {
 
-  const logEntry: LogEntry = new LogEntry();
+  const logEntry = new LogEntry();
   logEntry.timeStamp = moment(rawData[1]).toDate();
   logEntry.correlationId = rawData[2];
   logEntry.processModelId = rawData[3];
