@@ -36,7 +36,18 @@ export class LoggingRepository implements ILoggingRepository {
 
     const timeStampAsIsoString = moment(timestamp).toISOString();
 
-    const logEntryValues = ['ProcessModel', timeStampAsIsoString, correlationId, processModelId, processInstanceId, '', '', logLevel, message];
+    const logEntryValues = [
+      'ProcessModel',
+      timeStampAsIsoString,
+      correlationId,
+      processModelId,
+      processInstanceId,
+      '',
+      '',
+      logLevel,
+      message,
+    ];
+
     await this.writeLogEntryToFileSystem(processModelId, ...logEntryValues);
   }
 
@@ -53,8 +64,18 @@ export class LoggingRepository implements ILoggingRepository {
 
     const timeStampAsIsoString = moment(timestamp).toISOString();
 
-    const logEntryValues =
-      ['FlowNodeInstance', timeStampAsIsoString, correlationId, processModelId, processInstanceId, flowNodeInstanceId, flowNodeId, logLevel, message];
+    const logEntryValues = [
+      'FlowNodeInstance',
+      timeStampAsIsoString,
+      correlationId,
+      processModelId,
+      processInstanceId,
+      flowNodeInstanceId,
+      flowNodeId,
+      logLevel,
+      message,
+    ];
+
     await this.writeLogEntryToFileSystem(processModelId, ...logEntryValues);
   }
 
