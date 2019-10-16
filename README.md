@@ -1,3 +1,3 @@
-# Logging Repository - FileSystem Implementation
+# Logging Repository - DEPRECATED
 
-This repository uses the local file system to access and manipulate log files.
+This repository has been integrated into the [logging api](https://github.com/process-engine/logging_api) repo and is no longer maintained.
